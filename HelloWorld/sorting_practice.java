@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class sorting_practice {
 	
-	static int z = 0;
+	//2016112330 이형석
 	static int i = 0;
 	static int j = 0;
 	static int m = 0;
@@ -33,37 +33,30 @@ public class sorting_practice {
 	}
 	
 	//퀵정렬
-	public static void quick(int[] ary,int length) 
-	{
-		int pivot = ary[0];
-		for(i=length-1; i>j; i--)
-		{
-			System.out.println("이것은 i입니다 " + i);
-			if(ary[i]<pivot)
-			{
-				m = ary[i];
-				for(j=1; j<i; j++)
-				{
-					System.out.println("이것은 j입니다 " + j);
-					if(ary[j]>pivot)
-					{
-						ary[i] = ary[j];
-						ary[j] = m;
-						break;
-					}
-				}
-				
-			}
-			if(i==j+2)
-			{
-				z = i;
-				break;
-			}
+	public void quick(int[] ary, int l, int r){
+        int left = l;
+        int right = r;
+        int pivot = ary[(l+r)/2];
+        
+        do{
+            while(ary[left] < pivot) left++;
+            while(ary[right] > pivot) right--;
+            if(left <= right){    
+                int temp = ary[left];
+                ary[left] = ary[right];
+                ary[right] = temp;
+                left++;
+                right--;
+            }
+        }while (left <= right);
+        
+        if(l < right) quick(ary, l, right);
+        if(r > left) quick(ary, left, r);
 
-		}
-		quick(ary, z+1);
-		printarray(ary);
-	}
+
+    }
+		
+
 	
 	//버블정렬
 	public static void bubble(int[] ary) {
@@ -86,10 +79,13 @@ public class sorting_practice {
 		int[] array = new int[10];
 		
 		Scanner sc = new Scanner(System.in);
+		
 
 		for (i=0; i<10; i++) {
 			array[i] = sc.nextInt();
 		}
+		
+		
 		
 		System.out.println("Choose your sorting");
 		System.out.println("1 : 선택정렬");
@@ -101,13 +97,16 @@ public class sorting_practice {
 			
 			Scanner scan = new Scanner(System.in);
 			
+			
 			switch(scan.nextInt()) {
 			case 1:
 				select(array);
 				bonLoop = false;
 				break;
 			case 2:
-				quick(array,length);
+				sorting_practice sort = new sorting_practice();
+				sort.quick(array,0,length-1);
+				printarray(array);
 				bonLoop = false;
 				break;
 			case 3:
@@ -118,12 +117,9 @@ public class sorting_practice {
 				System.out.println("번호를 다시 입력해주세요");
 				break;
 			}
-			scan.close();
+			
 			
 		}
-		
-		sc.close();
-
 
 	}
 
